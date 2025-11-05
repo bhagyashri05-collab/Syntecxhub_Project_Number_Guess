@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Number Guessing Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-card">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <h1>Number Guesser Pro</h1>
+                <div class="logo-subtitle">Can you guess the magic number?</div>
+            </div>
+            
+            <div id="difficulty-screen" class="screen active">
+                <h2><i class="fas fa-trophy"></i> Select Difficulty <i class="fas fa-trophy"></i></h2>
+                <div class="difficulty-buttons">
+                    <button onclick="startGame(10)" class="btn easy">
+                        <i class="fas fa-seedling"></i>
+                        <span>Easy (1-10)</span>
+                        <div class="best-score" id="best-score-10">Best: -</div>
+                    </button>
+                    <button onclick="startGame(50)" class="btn medium">
+                        <i class="fas fa-fire"></i>
+                        <span>Medium (1-50)</span>
+                        <div class="best-score" id="best-score-50">Best: -</div>
+                    </button>
+                    <button onclick="startGame(100)" class="btn hard">
+                        <i class="fas fa-bolt"></i>
+                        <span>Hard (1-100)</span>
+                        <div class="best-score" id="best-score-100">Best: -</div>
+                    </button>
+                </div>
+            </div>
+
+            <div id="game-screen" class="screen">
+                <div class="game-header">
+                    <h2>I'm thinking of a number between <span id="range" class="highlight">1-10</span></h2>
+                    <div class="attempts-badge">
+                        <i class="fas fa-bullseye"></i>
+                        <span id="attempts">0</span>
+                    </div>
+                </div>
+                
+                <div class="guess-container">
+                    <div id="hint" class="hint">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Take a guess!</span>
+                    </div>
+                    
+                    <form id="guess-form" class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-keyboard"></i>
+                            <input type="number" id="guess-input" name="guess" min="1" placeholder="Enter your guess" autofocus required>
+                        </div>
+                        <button type="submit" id="submit-guess" class="btn submit">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Submit</span>
+                        </button>
+                    </form>
+                </div>
+                <p>Attempts: <span id="attempts">0</span></p>
+                <button onclick="backToMenu()" class="btn back">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Menu</span>
+                </button>
+            </div>
+
+            <div id="result-screen" class="screen">
+                <div class="result-icon success">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 id="result-message">🎉 You Did It!</h2>
+                <div class="result-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Your Score</div>
+                        <div class="stat-value"><span id="final-attempts">5</span> attempts</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Best Score</div>
+                        <div class="stat-value"><span id="best-score">-</span> attempts</div>
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <button onclick="playAgain()" class="btn play-again">
+                        <i class="fas fa-redo"></i>
+                        <span>Play Again</span>
+                    </button>
+                    <button onclick="backToMenu()" class="btn back">
+                        <i class="fas fa-home"></i>
+                        <span>Main Menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
