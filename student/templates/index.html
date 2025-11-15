@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="container">
+        <header>
+            <div class="header-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1>Student Management System</h1>
+            <p class="subtitle">Efficiently manage and track student records</p>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="total-students">0</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stats-grade">-</div>
+                    <div class="stat-label">Top Grade</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stats-average">-</div>
+                    <div class="stat-label">Avg Grade</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Form Section -->
+            <section class="form-section">
+                <div class="section-header-form">
+                    <h2 id="form-title">
+                        <i class="fas fa-user-plus"></i> Add New Student
+                    </h2>
+                    <div class="form-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                </div>
+                <form id="student-form">
+                    <div class="form-group">
+                        <label for="student-id">
+                            <i class="fas fa-id-card"></i> Student ID <span class="required">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-hashtag input-icon"></i>
+                            <input type="text" id="student-id" name="id" required 
+                                   placeholder="Enter unique student ID">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-name">
+                            <i class="fas fa-user"></i> Name <span class="required">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="student-name" name="name" required 
+                                   placeholder="Enter student name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-grade">
+                            <i class="fas fa-star"></i> Grade <span class="required">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-graduation-cap input-icon"></i>
+                            <input type="text" id="student-grade" name="grade" required 
+                                   placeholder="Enter student grade (e.g., A, B+, 95)">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="submit-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> <span class="btn-text">Add Student</span>
+                        </button>
+                        <button type="button" id="cancel-btn" class="btn btn-secondary" style="display: none;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Students List Section -->
+            <section class="list-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Student Records</h2>
+                    <span class="student-count" id="student-count">
+                        <i class="fas fa-users"></i> <span id="count-text">0 students</span>
+                    </span>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Search by name, ID, or grade...">
+                        <button class="clear-search" id="clear-search" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="grade">By Grade</button>
+                    </div>
+                </div>
+                
+                <div id="toast-container"></div>
+                
+                <div class="table-container">
+                    <div class="loading-spinner" id="loading-spinner" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <table id="students-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-id-card"></i> ID</th>
+                                <th><i class="fas fa-user"></i> Name</th>
+                                <th><i class="fas fa-star"></i> Grade</th>
+                                <th><i class="fas fa-cog"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-tbody">
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    <i class="fas fa-inbox empty-icon"></i>
+                                    <div>No students found. Add your first student above!</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
